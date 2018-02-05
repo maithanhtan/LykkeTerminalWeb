@@ -143,6 +143,9 @@ class RootStore {
         );
         this.tradeStore.subscribe(session);
         this.balanceListStore.subscribe(session);
+        instruments.forEach(instrument =>
+          this.referenceStore.fetchInstrumentPerformance(instrument.id, 'day')
+        );
         return Promise.resolve();
       })
       .catch(() => this.loadForUnauthUser(defaultInstrument));

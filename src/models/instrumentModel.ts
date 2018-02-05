@@ -15,6 +15,8 @@ class InstrumentModel {
 
   @observable dir: Dir;
 
+  @observable openPrice: number;
+
   constructor(instrument: Partial<InstrumentModel>) {
     extendObservable(this, instrument);
   }
@@ -22,7 +24,7 @@ class InstrumentModel {
   @action
   updatePrice = (nextPrice: number) => {
     if (this.price !== nextPrice) {
-      this.change = (nextPrice - this.price) / this.price * 100;
+      this.change = (nextPrice - this.openPrice) / this.openPrice * 100;
       this.dir = this.change > 0 ? Dir.Up : Dir.Down;
       this.price = nextPrice;
     }

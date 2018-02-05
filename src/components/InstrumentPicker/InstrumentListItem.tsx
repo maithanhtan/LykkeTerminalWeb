@@ -3,6 +3,7 @@ import {lighten, rem} from 'polished';
 import * as React from 'react';
 import {Dir} from '../../models';
 import {InstrumentModel} from '../../models/index';
+import {asChange} from '../../utils';
 import styled from '../styled';
 import {InstrumentField, InstrumentPickerActions} from './index';
 
@@ -16,7 +17,6 @@ interface InstrumentListItemProps extends InstrumentPickerActions {
 const StyledInstrumentItem = styled(Flex)`
   margin-top: 10px;
   cursor: pointer;
-  justify-content: space-between;
   :hover {
     background: ${lighten(0.05, '#3c3c3c')};
   }
@@ -37,6 +37,12 @@ const StyledInstrumentPrice = StyledInstrumentField.extend`
   min-width: ${rem(100)};
 `;
 
+const StyledInstrumentChange = StyledInstrumentField.extend`
+  text-align: right;
+  min-width: ${rem(100)};
+  color: ${p => (p.dir === Dir.Up ? '#13b72a' : '#ff3e2e')};
+`;
+
 const InstrumentListItem: React.SFC<InstrumentListItemProps> = observer(
   ({instrument, onPick}) => {
     const {
@@ -49,6 +55,7 @@ const InstrumentListItem: React.SFC<InstrumentListItemProps> = observer(
     } = instrument;
     return (
       <StyledInstrumentItem
+        justify="space-between"
         // tslint:disable-next-line:jsx-no-lambda
         onClick={() => onPick && onPick({id, name, price, change, accuracy})}
       >
@@ -56,6 +63,9 @@ const InstrumentListItem: React.SFC<InstrumentListItemProps> = observer(
         <StyledInstrumentPrice dir={dir}>
           {price.toFixed(accuracy)}
         </StyledInstrumentPrice>
+        <StyledInstrumentChange dir={dir}>
+          {Number.isNaN(change) || asChange(change)}
+        </StyledInstrumentChange>
       </StyledInstrumentItem>
     );
   }

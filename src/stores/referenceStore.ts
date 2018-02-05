@@ -5,6 +5,7 @@ import {
   AssetCategoryModel,
   AssetModel,
   InstrumentModel,
+  Interval,
   SearchString
 } from '../models';
 import * as mappers from '../models/mappers';
@@ -166,6 +167,16 @@ class ReferenceStore extends BaseStore {
     if (instrument && instrument.id) {
       instrument.updatePrice(price);
     }
+  };
+
+  fetchInstrumentPerformance = async (
+    instrument: string,
+    period: Interval = 'day'
+  ) => {
+    const resp = await this.api.fetchInstrumentPerformance(instrument, period);
+    runInAction(() => {
+      this.getInstrumentById(instrument)!.openPrice = resp.History[0].Open;
+    });
   };
 
   reset = () => (this.assets = []);
