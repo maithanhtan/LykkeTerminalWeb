@@ -1,6 +1,7 @@
 import {observer} from 'mobx-react';
 import {TradeModel} from '../../models/index';
 import {connect} from '../connect';
+import {withLoader} from '../Loader/index';
 import PublicTradeList from './PublicTradeList';
 import TradeList from './TradeList';
 import TradeListItem from './TradeListItem';
@@ -17,17 +18,21 @@ const ConnectedTradeList = connect(
     fetchPart: fetchPartTrade,
     trades: getAllTrades,
     // tslint:disable-next-line:object-literal-sort-keys
-    authorized: authStore.isAuth
+    authorized: authStore.isAuth,
+    // tslint:disable-next-line:object-literal-sort-keys
+    isLoading: getAllTrades.length === 0
   }),
-  TradeList
+  withLoader(TradeList)
 );
 
 const ConnectedPublicTradeList = connect(
   ({tradeStore: {getPublicTrades, fetchPartPublicTrade}, authStore}) => ({
     fetchPart: fetchPartPublicTrade,
-    trades: getPublicTrades
+    trades: getPublicTrades,
+    // tslint:disable-next-line:object-literal-sort-keys
+    isLoading: getPublicTrades.length === 0
   }),
-  PublicTradeList
+  withLoader(PublicTradeList)
 );
 
 const ObservedTradeListItem = observer(TradeListItem);

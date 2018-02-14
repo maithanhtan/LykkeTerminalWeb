@@ -1,5 +1,6 @@
 import {AssetBalanceModel, AssetModel} from '../../models/index';
 import {connect} from '../connect';
+import {withLoader} from '../Loader/index';
 import WalletBalanceList from './WalletBalanceList';
 
 export interface WalletBalanceItemProps {
@@ -16,9 +17,11 @@ const ConnectedWalletBalanceList = connect(
     baseAsset:
       referenceStore.getAssetById(referenceStore.baseAssetId) ||
       new AssetModel({}),
-    total
+    total,
+    // tslint:disable-next-line:object-literal-sort-keys
+    isLoading: assets.length === 0
   }),
-  WalletBalanceList
+  withLoader(WalletBalanceList)
 );
 
 export {ConnectedWalletBalanceList as WalletBalanceList};

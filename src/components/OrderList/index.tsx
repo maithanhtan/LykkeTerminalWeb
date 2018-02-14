@@ -1,4 +1,5 @@
 import {connect} from '../connect';
+import {withLoader} from '../Loader';
 import OrderList from './OrderList';
 
 export interface OrderActions {
@@ -8,9 +9,11 @@ export interface OrderActions {
 const ConnectedOrderList = connect(
   ({orderListStore: {limitOrders: orders}, orderStore: {cancelOrder}}) => ({
     cancelOrder,
-    orders
+    orders,
+    // tslint:disable-next-line:object-literal-sort-keys
+    isLoading: orders.length === 0
   }),
-  OrderList
+  withLoader(OrderList)
 );
 
 export {ConnectedOrderList as OrderList};
