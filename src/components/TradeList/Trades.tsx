@@ -30,11 +30,11 @@ const Trades: React.SFC<TradesProps> = ({
           <TradeRow>
             <HeaderCell w={70}>Asset pair</HeaderCell>
             <HeaderCell w={50}>Side</HeaderCell>
-            <th>Volume</th>
             <th>Price</th>
-            <th>Opposite volume</th>
-            <HeaderCell w={90}>Order type</HeaderCell>
+            <th>Filled</th>
             <th>Fee</th>
+            <th>Value</th>
+            <HeaderCell w={90}>Order type</HeaderCell>
             <HeaderCell>Time</HeaderCell>
           </TradeRow>
         </thead>
