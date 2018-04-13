@@ -53,7 +53,7 @@ const ConnectedPublicTradeList = connect(
     trades: getPublicTrades,
     selectedInstrument
   }),
-  withStyledScroll({height: 'calc(100% - 40px)'})(PublicTradeList)
+  withStyledScroll({width: 'calc(100% + 1rem)'})(PublicTradeList)
 );
 
 const ConnectedTradeLog = connect(
