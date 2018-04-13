@@ -22,13 +22,17 @@ export interface WalletBalanceListProps {
   total: number;
 }
 
+const StyledTable = Table.extend`
+  width: calc(100% - 1rem);
+`;
+
 const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
   assets = [],
   baseAsset,
   baseAsset: {accuracy, name},
   total
 }) => (
-  <Table>
+  <StyledTable>
     <thead>
       <tr>
         <HeaderCell w={60}>Assets</HeaderCell>
@@ -40,7 +44,7 @@ const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
       <Total>
         <Cell w={60}>Total</Cell>
         <td>&nbsp;</td>
-        <td>
+        <td style={{padding: '10px !important'}}>
           {total.toLocaleString(undefined, {
             maximumFractionDigits: accuracy
           })}&nbsp;{name}
@@ -54,7 +58,7 @@ const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
         />
       ))}
     </tbody>
-  </Table>
+  </StyledTable>
 );
 
 export default WalletBalanceList;

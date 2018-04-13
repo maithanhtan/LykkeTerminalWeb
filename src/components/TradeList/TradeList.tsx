@@ -11,17 +11,21 @@ export interface TradeListProps extends LoaderProps {
   shouldFetchMore?: boolean;
 }
 
+const ScrollableTable = Table.extend`
+  width: calc(100% - 1rem);
+`;
+
 const TradeList: React.SFC<TradeListProps> = ({
   trades = [],
   fetchNextTrades,
   shouldFetchMore
 }) => (
   <React.Fragment>
-    <Table>
+    <ScrollableTable>
       <tbody>
         {trades.map(trade => <TradeListItem key={trade.id} {...trade} />)}
       </tbody>
-    </Table>
+    </ScrollableTable>
     {shouldFetchMore && (
       <StyledLoadMore>
         <StyledLoadMoreButton onClick={fetchNextTrades}>

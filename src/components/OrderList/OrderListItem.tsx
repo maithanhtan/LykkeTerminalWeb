@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {OrderModel, Side} from '../../models';
 import {Icon} from '../Icon/index';
+import {Cell} from '../Table/styles';
 import {OrderActions, OrderListProps} from './index';
 
 const OrderListItem: React.SFC<OrderModel & OrderActions & OrderListProps> = ({
@@ -34,6 +35,7 @@ const OrderListItem: React.SFC<OrderModel & OrderActions & OrderListProps> = ({
           <Icon name="pencil" />
         </span>
       </td>
+      <Cell w={10}>&nbsp;</Cell>
     </tr>
   );
 };

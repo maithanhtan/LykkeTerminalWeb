@@ -35,7 +35,7 @@ const ConnectedTradeList = connect<TradeListProps>(
   }),
   compose(
     withLoader<TradeListProps>(p => p.loading!),
-    withStyledScroll({height: 'calc(100% - 85px)'})
+    withStyledScroll({height: 'calc(100% - 85px)', width: 'calc(100% + 1rem)'})
   )(TradeList)
 );
 

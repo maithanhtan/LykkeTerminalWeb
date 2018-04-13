@@ -1,6 +1,6 @@
 import {withAuth} from '../Auth';
 import {connect} from '../connect';
-import {withScroll} from '../CustomScrollbar';
+import {withStyledScroll} from '../CustomScrollbar';
 import OrderList from './OrderList';
 import Orders from './Orders';
 
@@ -31,7 +31,7 @@ const ConnectedOrderList = connect(
   ({orderListStore: {limitOrders: orders}}) => ({
     orders
   }),
-  withScroll(OrderList)
+  withStyledScroll({width: 'calc(100% + 1rem)'})(OrderList)
 );
 
 export {ConnectedOrders as Orders};
