@@ -1,6 +1,6 @@
 import {pathOr} from 'rambda';
 import {connect} from '../connect';
-import {withScroll} from '../CustomScrollbar';
+import {withStyledScroll} from '../CustomScrollbar';
 import BalanceList from './BalanceList';
 
 export interface BalanceListProps {
@@ -29,7 +29,7 @@ const ConnectedBalanceList = connect(
     baseAssetName: pathOr('', ['name'], getAssetById(baseAssetId)),
     total
   }),
-  withScroll(BalanceList)
+  withStyledScroll({width: 'calc(100% + 1rem)'})(BalanceList)
 );
 
 export {ConnectedBalanceList as BalanceList};

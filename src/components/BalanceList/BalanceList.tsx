@@ -9,7 +9,7 @@ const ManageWalletLink = styled.a`
   cursor: pointer;
   text-decoration: none;
   color: rgb(245, 246, 247);
-  width: 100%;
+  width: calc(100% - 1rem);
   min-height: 32px;
   border-radius: 4px;
   border: solid 1px rgba(140, 148, 160, 0.4);
@@ -31,6 +31,9 @@ const Total = styled.tr`
   }
 `;
 
+const ScrollableTable = Table.extend`
+  width: calc(100% - 1rem);
+`;
 const BalanceList: React.SFC<BalanceListProps> = ({
   balances = [],
   baseAssetName,
@@ -38,7 +41,7 @@ const BalanceList: React.SFC<BalanceListProps> = ({
   accuracy
 }) => (
   <React.Fragment>
-    <Table>
+    <ScrollableTable>
       <thead>
         <tr>
           <th>Symbol</th>
@@ -63,7 +66,7 @@ const BalanceList: React.SFC<BalanceListProps> = ({
           />
         ))}
       </tbody>
-    </Table>
+    </ScrollableTable>
     <ManageWalletLink
       href={process.env.REACT_APP_WEBWALLET_URL}
       target="_blank"
