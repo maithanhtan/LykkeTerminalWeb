@@ -123,24 +123,25 @@ class Terminal extends React.Component<TerminalProps, {initialValue: any}> {
   }
 
   removeTransparentDivAfterResize() {
-    document.getElementById('transparentDiv')!.style.display = 'none';
+    const transparentDiv = document.getElementById('transparentDiv');
+    if (transparentDiv) {
+      transparentDiv!.style.display = 'none';
+    }
   }
 
   handleRenderTile = (id: string) => ELEMENT_MAP[id];
 
   handleChange = (args: any) => {
-    if (args.splitPercentage > MAX_LEFT_PADDING) {
-      args.splitPercentage = MAX_LEFT_PADDING;
-    } else if (args.second.splitPercentage < MAX_RIGHT_PADDING) {
-      args.second.splitPercentage = MAX_RIGHT_PADDING;
-    }
+    const transparentDiv = document.getElementById('transparentDiv');
     if (
       args.second.first.splitPercentage <= MIN_PANE_SIZE_PERCENTAGE ||
       args.second.first.splitPercentage >= 100 - MIN_PANE_SIZE_PERCENTAGE
     ) {
       this.removeTransparentDivAfterResize();
     } else {
-      document.getElementById('transparentDiv')!.style.display = 'block';
+      if (transparentDiv) {
+        transparentDiv!.style.display = 'block';
+      }
     }
 
     this.setState({
