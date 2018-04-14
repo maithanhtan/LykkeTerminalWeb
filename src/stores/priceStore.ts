@@ -5,6 +5,8 @@ import {last} from 'rambda';
 import {BaseStore, RootStore} from '.';
 import {PriceApi} from '../api';
 import * as topics from '../api/topics';
+import levels from '../constants/notificationLevels';
+import messages from '../constants/notificationMessages';
 import {MarketType, PriceType} from '../models';
 import * as map from '../models/mappers';
 
@@ -40,18 +42,29 @@ class PriceStore extends BaseStore {
   }
 
   fetchLastPrice = async () => {
-    const resp = await this.api.fetchCandles(
-      this.selectedInstrument!.id,
-      toUtc(addMonths(new Date(), -12)),
-      toUtc(addMonths(new Date(), 1)),
-      'month'
-    );
-    if (resp.History && resp.History.length > 0) {
-      runInAction(() => {
-        const {close} = map.mapToBarFromRest(last(resp.History));
-        this.lastTradePrice = close;
+    return this.api
+      .fetchCandles(
+        this.selectedInstrument!.id,
+        toUtc(addMonths(new Date(), -12)),
+        toUtc(addMonths(new Date(), 1)),
+        'month'
+      )
+      .then((resp: any) => {
+        if (resp.History && resp.History.length > 0) {
+          runInAction(() => {
+            const {close} = map.mapToBarFromRest(last(resp.History));
+            this.lastTradePrice = close;
+          });
+        }
+      })
+      .catch((e: any) => {
+        // tslint:disable:no-console
+        console.error(e);
+        this.rootStore.notificationStore.addNotification(
+          levels.error,
+          messages.pairNotConfigured(this.selectedInstrument!.id)
+        );
       });
-    }
   };
 
   fetchDailyCandle = async () => {
@@ -63,13 +76,23 @@ class PriceStore extends BaseStore {
     );
     if (resp.History && resp.History.length > 0) {
       runInAction(() => {
-        const {open, high, low, volume} = map.mapToBarFromRest(
+        const {open, high, low, close, volume} = map.mapToBarFromRest(
           last(resp.History)
         );
         this.dailyOpen = open;
         this.dailyHigh = high;
         this.dailyLow = low;
         this.dailyVolume = volume;
+
+        this.selectedInstrument!.updateFromCandle(open, close, volume);
+        this.selectedInstrument!.updateVolumeInBase(
+          this.rootStore.marketStore.convert(
+            volume,
+            this.selectedInstrument!.baseAsset.id,
+            this.rootStore.referenceStore.baseAssetId,
+            this.rootStore.referenceStore.getInstrumentById
+          )
+        );
       });
     }
   };

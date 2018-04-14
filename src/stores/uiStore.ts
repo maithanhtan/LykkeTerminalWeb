@@ -15,6 +15,8 @@ class UiStore extends BaseStore {
   @observable searchWalletName: string = Watchlists.All;
   @observable selectedInstrument: InstrumentModel | null;
   @observable showInstrumentPicker = false;
+  @observable showInstrumentPerformanceData = false;
+  @observable showInstrumentSelection = false;
   @observable showOrdersSelect: boolean = false;
   stateFns: any = [];
   initPriceUpdate: any;
@@ -25,9 +27,17 @@ class UiStore extends BaseStore {
       () => this.selectedInstrument,
       async instrument => {
         if (instrument) {
+          this.toggleInstrumentPerformanceData(false);
+
           const {reset, fetchAll, subscribe} = this.rootStore.orderBookStore;
           reset();
-          await fetchAll(); // should be waited for loading bids and asks
+
+          try {
+            await fetchAll(); // should be waited for loading bids and asks
+          } catch (e) {
+            return;
+          }
+
           subscribe(this.getWs());
 
           const {
@@ -63,6 +73,8 @@ class UiStore extends BaseStore {
           await fetchLastPrice();
           await fetchDailyCandle();
           subscribeToDailyCandle();
+
+          this.toggleInstrumentPerformanceData(true);
         }
       }
     );
@@ -75,6 +87,10 @@ class UiStore extends BaseStore {
   @action
   readonly toggleAssetsSelect = () =>
     (this.showAssetsSelect = !this.showAssetsSelect);
+
+  @action
+  readonly toggleInstrumentSelection = () =>
+    (this.showInstrumentSelection = !this.showInstrumentSelection);
 
   @action
   readonly toggleOrdersSelect = () =>
@@ -95,6 +111,10 @@ class UiStore extends BaseStore {
   @action
   toggleInstrumentPicker = () =>
     (this.showInstrumentPicker = !this.showInstrumentPicker);
+
+  @action
+  toggleInstrumentPerformanceData = (show: boolean) =>
+    (this.showInstrumentPerformanceData = show);
 
   reset = () => {
     this.searchTerm = '';

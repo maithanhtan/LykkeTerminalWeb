@@ -43,12 +43,106 @@ describe('uiOrder store', () => {
     accuracy = 2;
     expect(
       uiOrderStore.fixedAmount(currentPrice, quantityValue, accuracy)
-    ).toBe((currentPrice * parseFloat(quantityValue)).toFixed(accuracy));
+    ).toBe(
+      (currentPrice * parseFloat(quantityValue)).toLocaleString(undefined, {
+        maximumFractionDigits: accuracy
+      })
+    );
   });
 
   it('should return object with fixed value', () => {
     accuracy = 3;
     const gottenObject = uiOrderStore.onValueChange({field, accuracy, value});
     expect(gottenObject![field]).toBe(value);
+  });
+
+  describe('values validation', () => {
+    let quantityValue = '0.0';
+    let priceValue = '0.0';
+    let isSell = true;
+    const baseAssetBalance = 2;
+    const quoteAssetBalance = 2;
+    const priceAccuracy = 0;
+
+    it('should return true if quantity value is equal 0', () => {
+      const isInvalid = uiOrderStore.isLimitInvalid(
+        isSell,
+        quantityValue,
+        priceValue,
+        baseAssetBalance,
+        quoteAssetBalance,
+        priceAccuracy
+      );
+      expect(isInvalid).toBeTruthy();
+    });
+
+    it('should return true if price value is equal 0', () => {
+      quantityValue = '0.1';
+      const isInvalid = uiOrderStore.isLimitInvalid(
+        isSell,
+        quantityValue,
+        priceValue,
+        baseAssetBalance,
+        quoteAssetBalance,
+        priceAccuracy
+      );
+      expect(isInvalid).toBeTruthy();
+    });
+
+    it('should return true if amount exceeds limit balance and sell is true', () => {
+      quantityValue = '3.0';
+      const isInvalid = uiOrderStore.isAmountExceedLimitBalance(
+        isSell,
+        quantityValue,
+        priceValue,
+        baseAssetBalance,
+        quoteAssetBalance,
+        priceAccuracy
+      );
+      expect(isInvalid).toBeTruthy();
+    });
+
+    it('should return true if amount exceeds limit balance and sell is false', () => {
+      quantityValue = '3.0';
+      priceValue = '1.0';
+      isSell = false;
+      const isInvalid = uiOrderStore.isAmountExceedLimitBalance(
+        isSell,
+        quantityValue,
+        priceValue,
+        baseAssetBalance,
+        quoteAssetBalance,
+        priceAccuracy
+      );
+      expect(isInvalid).toBeTruthy();
+    });
+
+    it('should return false if amount does not exceed limit balance and sell is true', () => {
+      quantityValue = '1.0';
+      const isInvalid = uiOrderStore.isAmountExceedLimitBalance(
+        isSell,
+        quantityValue,
+        priceValue,
+        baseAssetBalance,
+        quoteAssetBalance,
+        priceAccuracy
+      );
+      expect(isInvalid).toBeFalsy();
+    });
+
+    it('should return false if amount does not exceed limit balance and sell is false', () => {
+      quantityValue = '1.0';
+      priceValue = '1.0';
+      isSell = false;
+      const isInvalid = uiOrderStore.isAmountExceedLimitBalance(
+        isSell,
+        quantityValue,
+        priceValue,
+        baseAssetBalance,
+        quoteAssetBalance,
+        priceAccuracy
+      );
+      expect(isInvalid).toBeFalsy();
+    });
   });
 });
