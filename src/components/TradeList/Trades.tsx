@@ -44,12 +44,13 @@ class Trades extends React.Component<TradesProps, TableSortState> {
         value: 'Side',
         width: TradesCellWidth.Side
       },
-      {className: 'right-align', key: 'volume', value: 'Volume'},
       {className: 'right-align', key: 'price', value: 'Price'},
+      {className: 'right-align', key: 'filled', value: 'Filled'},
+      {className: 'right-align', key: 'fee', value: 'Fee'},
       {
         className: 'right-align',
-        key: 'oppositeVolume',
-        value: 'Opposite volume'
+        key: 'value',
+        value: 'Value'
       },
       {
         className: 'right-align',
@@ -57,7 +58,6 @@ class Trades extends React.Component<TradesProps, TableSortState> {
         value: 'Order type',
         width: TradesCellWidth.OrderType
       },
-      {className: 'right-align', key: 'fee', value: 'Fee'},
       {className: 'right-align', key: 'timestamp', value: 'Time'}
     ];
 

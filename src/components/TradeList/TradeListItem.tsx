@@ -57,9 +57,6 @@ const TradeListItem: React.SFC<TradeListItemProps> = ({
         {quoteAssetName}
       </TitledCell>
       <Cell w={TradesCellWidth.OrderType}>{orderType}</Cell>
-      <TitledCell>
-        {toLocaleStringWithAccuracy(fee, feeAsset.accuracy)} {feeAsset.name}
-      </TitledCell>
       <TitledCell>{new Date(timestamp).toLocaleString()}</TitledCell>
     </tr>
   );

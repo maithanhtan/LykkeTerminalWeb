@@ -50,31 +50,18 @@ class Blotter extends React.Component<OrdersProps, TableSortState> {
     const headers: any[] = [
       {key: 'symbol', value: 'Asset pair', width: OrderCellWidth.Symbol},
       {
-        sortDisabled: true,
-        className: 'center-align',
-        key: '',
-        value: 'Close',
-        width: OrderCellWidth.CancelOrder
-      },
-      {
-        className: 'right-align',
-        key: 'id',
-        value: 'OrderID',
-        width: OrderCellWidth.Id
-      },
-      {
         className: 'right-align',
         key: 'side',
         value: 'Side',
         width: OrderCellWidth.Side
       },
-      {className: 'right-align', key: 'volume', value: 'Volume'},
-      {className: 'right-align', key: 'remainingVolume', value: 'Filled'},
       {className: 'right-align', key: 'price', value: 'Price'},
+      {className: 'right-align', key: 'amount', value: 'Amount'},
+      {className: 'right-align', key: 'value', value: 'Value'},
       {
         className: 'right-align',
-        key: 'createdAt',
-        value: 'Created Date',
+        key: 'time',
+        value: 'Time',
         width: OrderCellWidth.CreatedDate
       },
       {
@@ -83,6 +70,13 @@ class Blotter extends React.Component<OrdersProps, TableSortState> {
         key: '',
         value: 'Edit',
         width: OrderCellWidth.Edit
+      },
+      {
+        sortDisabled: true,
+        className: 'center-align',
+        key: '',
+        value: 'Close',
+        width: OrderCellWidth.CancelOrder
       }
     ];
 

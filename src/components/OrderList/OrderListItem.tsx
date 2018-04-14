@@ -1,7 +1,6 @@
 import {observer} from 'mobx-react';
 import * as React from 'react';
 import {OrderModel, Side} from '../../models';
-import {toLocaleStringWithAccuracy} from '../../utils/string';
 import {Icon} from '../Icon/index';
 import {Cell} from '../Table/styles';
 import {OrderActions, OrderCellWidth} from './index';
@@ -12,24 +11,6 @@ interface OrderListItemProps {
   accuracy: number;
   symbol: string;
 }
-
-const getFilled = (
-  volume: number,
-  remainingVolume: number,
-  accuracy: number
-) => {
-  return toLocaleStringWithAccuracy(volume - remainingVolume, accuracy);
-};
-
-const getFilledPercent = (
-  volume: number,
-  remainingVolume: number,
-  accuracy: number
-) => {
-  return volume - remainingVolume === 0
-    ? 0
-    : toLocaleStringWithAccuracy(remainingVolume / volume * 100, accuracy);
-};
 
 const OrderListItem: React.SFC<OrderActions & OrderListItemProps> = observer(
   ({
@@ -44,30 +25,23 @@ const OrderListItem: React.SFC<OrderActions & OrderListItemProps> = observer(
     return (
       <tr>
         <Cell w={OrderCellWidth.Symbol}>{symbol}</Cell>
-        <Cell w={OrderCellWidth.CancelOrder} style={{textAlign: 'center'}}>
-          {/* tslint:disable-next-line:jsx-no-lambda */}
-          <span onClick={() => cancelOrder!(id)}>
-            <Icon name="cross" />
-          </span>
-        </Cell>
-        <Cell w={OrderCellWidth.Id}>{id}</Cell>
         <Cell w={OrderCellWidth.Side} style={{color: colorSide}}>
           {side}
         </Cell>
-        <td>{volume}</td>
-        <td>
-          {getFilled(volume, remainingVolume, accuracy)} ({getFilledPercent(
-            volume,
-            remainingVolume,
-            accuracy
-          )}%)
-        </td>
         <td>{price}</td>
+        <td>{volume}</td>
+        <td>&nbsp;</td>
         <Cell w={OrderCellWidth.CreatedDate}>{createdAt.toLocaleString()}</Cell>
         <Cell w={OrderCellWidth.Edit}>
           {/* tslint:disable-next-line:jsx-no-lambda */}
           <span onClick={() => onEdit(id)}>
             <Icon name="pencil" />
+          </span>
+        </Cell>
+        <Cell w={OrderCellWidth.CancelOrder} style={{textAlign: 'center'}}>
+          {/* tslint:disable-next-line:jsx-no-lambda */}
+          <span onClick={() => cancelOrder!(id)}>
+            <Icon name="cross" />
           </span>
         </Cell>
       </tr>
