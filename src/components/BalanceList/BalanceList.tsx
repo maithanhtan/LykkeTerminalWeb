@@ -31,9 +31,6 @@ const Total = styled.tr`
   }
 `;
 
-const ScrollableTable = Table.extend`
-  width: calc(100% - 1rem);
-`;
 const BalanceList: React.SFC<BalanceListProps> = ({
   balances = [],
   baseAssetName,
@@ -41,7 +38,7 @@ const BalanceList: React.SFC<BalanceListProps> = ({
   accuracy
 }) => (
   <React.Fragment>
-    <ScrollableTable>
+    <Table>
       <thead>
         <tr>
           <th>Symbol</th>
@@ -66,7 +63,7 @@ const BalanceList: React.SFC<BalanceListProps> = ({
           />
         ))}
       </tbody>
-    </ScrollableTable>
+    </Table>
     <ManageWalletLink
       href={process.env.REACT_APP_WEBWALLET_URL}
       target="_blank"

@@ -7,18 +7,14 @@ interface PublicTradeListProps {
   trades: TradeModel[];
 }
 
-const ScrollableTable = Table.extend`
-  width: calc(100% - 1rem);
-`;
-
 export const PublicTradeList: React.SFC<PublicTradeListProps> = ({
   trades = []
 }) => (
-  <ScrollableTable>
+  <Table>
     <tbody>
       {trades.map(trade => <PublicTradeListItem key={trade.id} {...trade} />)}
     </tbody>
-  </ScrollableTable>
+  </Table>
 );
 
 export default PublicTradeList;
