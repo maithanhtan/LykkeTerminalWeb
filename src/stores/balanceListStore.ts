@@ -1,5 +1,5 @@
 import {computed, observable, runInAction} from 'mobx';
-import {add} from 'rambda';
+import {add, pathOr} from 'rambda';
 import {BalanceListApi} from '../api/index';
 import * as topics from '../api/topics';
 import keys from '../constants/tradingWalletKeys';
@@ -67,8 +67,17 @@ class BalanceListStore extends BaseStore {
     walletList.forEach((wallet: WalletModel) => {
       wallet.totalBalance = 0;
       wallet.balances.forEach((assetBalance: AssetBalanceModel) => {
-        const {baseAssetId, getInstrumentById} = this.rootStore.referenceStore;
+        const {
+          baseAssetId,
+          getInstrumentById,
+          getAssetById
+        } = this.rootStore.referenceStore;
         const {balance, id} = assetBalance;
+
+        const asset = getAssetById(id);
+
+        assetBalance.name = pathOr('', ['name'], asset);
+        assetBalance.accuracy = pathOr('', ['accuracy'], asset);
 
         assetBalance.balanceInBaseAsset = this.rootStore.marketStore.convert(
           balance,
