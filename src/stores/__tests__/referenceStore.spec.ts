@@ -215,12 +215,9 @@ describe('referenceStore', () => {
             Id: 'BTCCHF',
             Accuracy: 3,
             BaseAssetId: 'BTC',
-            IsDisabled: false,
             InvertedAccuracy: 8,
             Name: 'BTC/CHF',
-            QuotingAssetId: 'CHF',
-            Source: 'BTCUSD',
-            Source2: 'USDCHF'
+            QuotingAssetId: 'CHF'
           }
         ]
       }));
@@ -256,12 +253,9 @@ describe('referenceStore', () => {
             Id: 'BTCCHF',
             Accuracy: 3,
             BaseAssetId: 'BTC',
-            IsDisabled: false,
             InvertedAccuracy: 8,
             Name: 'BTC/CHF',
-            QuotingAssetId: 'CHF',
-            Source: 'BTCUSD',
-            Source2: 'USDCHF'
+            QuotingAssetId: 'CHF'
           }
         ]
       }));
