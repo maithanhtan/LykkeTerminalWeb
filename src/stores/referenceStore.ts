@@ -33,7 +33,8 @@ class ReferenceStore extends BaseStore {
   get baseAssets() {
     return this.assets
       .filter(a => this.availableAssets.indexOf(a.id) > -1)
-      .filter(a => a.isBase);
+      .filter(a => a.isBase)
+      .filter(a => a.canBeBase);
   }
 
   @computed

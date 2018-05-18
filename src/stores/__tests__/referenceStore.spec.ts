@@ -159,6 +159,7 @@ describe('referenceStore', () => {
               Accuracy: 2,
               CategoryId: '1',
               IsBase: false,
+              CanBeBase: false,
               IconUrl: ''
             }
           ]
