@@ -123,9 +123,9 @@ class ChartStore extends BaseStore {
 
     this.widget = new (window as any).TradingView.widget({
       customFormatters: {
-        timeFormatter: {
-          format: (date: any) => date.toLocaleTimeString()
-        },
+        // timeFormatter: {
+        //   format: (date: any) => date.toLocaleTimeString()
+        // },
         dateFormatter: {
           format: (date: any) => date.toLocaleDateString()
         }
@@ -180,11 +180,11 @@ class ChartStore extends BaseStore {
           'rgba(140, 148, 160, 0.4)',
         'mainSeriesProperties.candleStyle.barColorsOnPrevClose': false,
 
-        'timeScale.rightOffset': rightOffset,
-        timezone
+        'timeScale.rightOffset': rightOffset
       },
       custom_css_url: process.env.PUBLIC_URL + '/chart.css',
-      saved_data: this.settings
+      saved_data: this.settings,
+      timezone
     });
   };
 }
